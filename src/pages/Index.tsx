@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowRight, Shield, Wrench, Monitor, Award } from "lucide-react";
-import heroImg from "@/assets/hero-metalworks.jpg";
+import heroImg from "@/assets/hero-home.jpg";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
