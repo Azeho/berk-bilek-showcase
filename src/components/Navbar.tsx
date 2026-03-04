@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { to: "/", label: "Baş sahypa" },
@@ -18,8 +19,8 @@ const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 bg-charcoal border-b border-charcoal/80">
       <div className="container flex items-center justify-between h-16">
-        <Link to="/" className="font-display text-xl font-bold tracking-wider text-charcoal-foreground uppercase">
-          Berk Bilek
+        <Link to="/" className="flex items-center">
+          <img src={logo} alt="Berk Bilek" className="h-10 w-auto" />
         </Link>
 
         {/* Desktop */}
