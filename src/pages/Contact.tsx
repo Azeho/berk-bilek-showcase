@@ -32,7 +32,8 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-sm">Telefon</p>
-                    <p className="text-muted-foreground">+993 12 00-00-00</p>
+                    <p className="text-muted-foreground">+993 12 76 50 10</p>
+                    <p className="text-muted-foreground">+993 12 76 59 08</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -41,7 +42,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-sm">E-poçta</p>
-                    <p className="text-muted-foreground">info@berkbilek.tm</p>
+                    <p className="text-muted-foreground">berkbilek2020@gmail.com</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
@@ -50,7 +51,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-sm">Salgy</p>
-                    <p className="text-muted-foreground">Aşgabat, Türkmenistan</p>
+                    <p className="text-muted-foreground">Berkararlyk, köçe. 1938 (demirçiler), jaý 76, Aşgabat, Türkmenistan</p>
                   </div>
                 </div>
               </div>

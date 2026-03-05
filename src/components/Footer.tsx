@@ -30,9 +30,10 @@ const Footer = () => (
       <div>
         <h4 className="font-display text-sm font-semibold uppercase tracking-wider mb-4 text-primary">Habarlaşmak</h4>
         <div className="flex flex-col gap-3 text-sm text-charcoal-foreground/60">
-          <span className="flex items-center gap-2"><Phone size={14} /> +993 12 00-00-00</span>
-          <span className="flex items-center gap-2"><Mail size={14} /> info@berkbilek.tm</span>
-          <span className="flex items-center gap-2"><MapPin size={14} /> Aşgabat, Türkmenistan</span>
+          <span className="flex items-center gap-2"><Phone size={14} /> +993 12 76 50 10</span>
+          <span className="flex items-center gap-2"><Phone size={14} /> +993 12 76 59 08</span>
+          <span className="flex items-center gap-2"><Mail size={14} /> berkbilek2020@gmail.com</span>
+          <span className="flex items-center gap-2"><MapPin size={14} /> Berkararlyk, köçe. 1938, jaý 76, Aşgabat</span>
         </div>
       </div>
     </div>
