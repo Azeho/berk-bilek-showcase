@@ -66,7 +66,6 @@ const Portfolio = () => {
                 key={p.id}
                 image={p.image}
                 title={p.title}
-                description={p.description}
                 onClick={() => setLightboxIndex(i)}
               />
             ))}

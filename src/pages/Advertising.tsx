@@ -63,7 +63,7 @@ const Advertising = () => {
           <SectionHeading title="Mahabat taslamalary" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {adProjects.map((p) => (
-              <ProjectCard key={p.id} image={p.image} title={p.title} description={p.description} />
+              <ProjectCard key={p.id} image={p.image} title={p.title} />
             ))}
           </div>
         </div>

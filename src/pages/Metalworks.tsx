@@ -63,7 +63,7 @@ const Metalworks = () => {
           <SectionHeading title="Metal işleri taslamalary" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {metalProjects.map((p) => (
-              <ProjectCard key={p.id} image={p.image} title={p.title} description={p.description} />
+              <ProjectCard key={p.id} image={p.image} title={p.title} />
             ))}
           </div>
         </div>
