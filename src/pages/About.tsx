@@ -20,10 +20,14 @@ const About = () => (
       <div className="container max-w-4xl">
         <div className="prose prose-lg max-w-none text-foreground">
           <p className="text-lg leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Berk Bilek</strong> kompaniýasy 20 ýyldan gowrak wagt bäri metal işleri we mahabat hyzmatlary pudagynda üstünlikli iş alyp barýar. Biz döwlet tehniki standartlaryna (TDS) laýyklykda ýokary hilli önümler öndürýäris we müşderilerimize iň gowy hyzmatlary hödürleýäris.
+            <strong className="text-foreground">"Berk Bilek"</strong> hususy kärhanasy 20 ýyldan gowrak wagt bäri ýurdumyzyň çäginde mahabat we metal işleri ugurlarynda yzygiderli we üstünlikli iş alyp barýar. Köp ýyllyk iş tejribämiz, ýokary hünärli işgärlerimiz hem-de häzirki zaman döwrebap  tehnologiýanyň ösen enjamlarynyň,  gurallarynyň we serişdeleriniň hasabyna  mümkinçiliklerimiz arkaly döwlet edaralaryna we hususy guramalara ýokary hilli hyzmatlary ýerine ýetirýäris.
           </p>
           <p className="text-lg leading-relaxed text-muted-foreground mt-4">
-            Biziň toparymyz tejribeli hünärmenlerden ybarat bolup, her bir taslamany jogapkärçilik bilen ýerine ýetirýär. Metal kesmekden we infrastruktura taslamalaryndan başlap, mahabat materiallarynyň çap edilmegine, LED ekranlaryň gurnamagyna we 3D animasiýa hyzmatlaryna çenli doly çözgütleri hödürleýäris.
+            Her bir mahabat taslamasy işçi toparymyz tarapyndan meýilleşdirilýär we wagtynda, ýokary hilli ýerine ýetirilýär.
+          </p>
+          <p className="text-lg leading-relaxed text-muted-foreground mt-4">
+            <strong className="text-foreground">Iş ýörelgämiz:</strong><br />
+            Kärhanamyz öz işinde kanunçylyk talaplaryna, tehniki düzgünlere we şertnama borçnamalaryna berk eýerýär. Biziň esasy maksadymyz — döwlet edaralary bilen uzak möhletleýin hyzmatdaşlygy ösdürmek, ynam döredýän we ygtybarly hyzmatlary hödürlemekdir.
           </p>
         </div>
       </div>
