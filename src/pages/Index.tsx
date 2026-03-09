@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Shield, Wrench, Monitor, Award } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { ArrowRight, Shield, Wrench, Monitor, Award, ChevronLeft, ChevronRight } from "lucide-react";
 import heroImg from "@/assets/hero-home.jpg";
 import SectionHeading from "@/components/SectionHeading";
-import ProjectCard from "@/components/ProjectCard";
 import { projects } from "@/data/projects";
 
 const stats = [
@@ -13,7 +13,21 @@ const stats = [
 ];
 
 const Index = () => {
-  const featured = projects.slice(0, 4);
+  const featured = useMemo(() => {
+    const pool = [...projects];
+    for (let i = pool.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    return pool.slice(0, 8);
+  }, []);
+
+  const [slide, setSlide] = useState(0);
+
+  useEffect(() => {
+    const t = setInterval(() => setSlide((s) => (s + 1) % featured.length), 4000);
+    return () => clearInterval(t);
+  }, [featured.length]);
 
   return (
     <div>
@@ -52,14 +66,45 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Projects */}
+      {/* Featured Projects Carousel */}
       <section className="py-20">
         <div className="container">
           <SectionHeading title="Saýlanan taslamalar" subtitle="Biziň iň gowy işlerimiz bilen tanyşyň." />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featured.map((p) => (
-              <ProjectCard key={p.id} image={p.image} title={p.title} description={p.description} />
+          <div className="relative overflow-hidden rounded-lg" style={{ aspectRatio: "16/7" }}>
+            {featured.map((p, i) => (
+              <div
+                key={p.id}
+                className={`absolute inset-0 transition-opacity duration-700 ${i === slide ? "opacity-100 z-10" : "opacity-0 z-0"}`}
+              >
+                <img src={p.image} alt={p.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent px-6 py-5">
+                  <p className="font-display text-white text-base md:text-lg uppercase tracking-wide">{p.title}</p>
+                </div>
+              </div>
             ))}
+            {/* Prev / Next */}
+            <button
+              onClick={() => setSlide((s) => (s - 1 + featured.length) % featured.length)}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              onClick={() => setSlide((s) => (s + 1) % featured.length)}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-20 bg-black/40 hover:bg-black/60 text-white rounded-full p-2 transition-colors"
+            >
+              <ChevronRight size={20} />
+            </button>
+            {/* Dots */}
+            <div className="absolute bottom-4 right-6 z-20 flex gap-2">
+              {featured.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => setSlide(i)}
+                  className={`w-2 h-2 rounded-full transition-colors ${i === slide ? "bg-primary" : "bg-white/50"}`}
+                />
+              ))}
+            </div>
           </div>
           <div className="text-center mt-10">
             <Link to="/portfolio" className="btn-cta text-primary-foreground px-6 py-3 rounded font-semibold inline-flex items-center gap-2">
