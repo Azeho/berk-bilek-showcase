@@ -3,9 +3,9 @@ import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import Lightbox from "@/components/Lightbox";
 import { projects, ProjectCategory } from "@/data/projects";
-import { Play } from "lucide-react";
 
 type Filter = "all" | ProjectCategory;
+type VideoFilter = "all" | "metal" | "mahabat" | "gurnama";
 
 const filters: { key: Filter; label: string }[] = [
   { key: "all", label: "Hemmesi" },
@@ -13,14 +13,25 @@ const filters: { key: Filter; label: string }[] = [
   { key: "advertising", label: "Mahabat hyzmatlary" },
 ];
 
-const videos = [
-  { title: "Polat konstruksiýa gurnamasy", thumbnail: "https://images.unsplash.com/photo-1504917595217-d4dc5efe5a68?w=600&q=80" },
-  { title: "LED mahabat ulgamy", thumbnail: "https://images.unsplash.com/photo-1563906267088-b029e7101114?w=600&q=80" },
-  { title: "3D animasiýa görkezmesi", thumbnail: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&q=80" },
+const videoFilters: { key: VideoFilter; label: string }[] = [
+  { key: "all", label: "Hemmesi" },
+  { key: "metal", label: "Metal" },
+  { key: "mahabat", label: "Mahabat" },
+  { key: "gurnama", label: "Gurnama" },
+];
+
+const videos: { src: string; title: string; category: VideoFilter }[] = [
+  { src: "https://berkbilek.org/videoshorts/v1m.mp4", title: "Metal işleri", category: "metal" },
+  { src: "https://berkbilek.org/videoshorts/v2m.mp4", title: "Metal işleri", category: "metal" },
+  { src: "https://berkbilek.org/videoshorts/v3m.mp4", title: "Metal işleri", category: "metal" },
+  { src: "https://berkbilek.org/videoshorts/v4m.mp4", title: "Metal işleri", category: "metal" },
+  { src: "https://berkbilek.org/videoshorts/v5m.mp4", title: "Metal işleri", category: "metal" },
+  { src: "https://berkbilek.org/videoshorts/v9m.mp4", title: "Metal işleri", category: "metal" },
 ];
 
 const Portfolio = () => {
   const [filter, setFilter] = useState<Filter>("all");
+  const [videoFilter, setVideoFilter] = useState<VideoFilter>("all");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   const filtered = useMemo(
@@ -29,6 +40,10 @@ const Portfolio = () => {
   );
 
   const lightboxImages = filtered.map((p) => ({ src: p.image, title: p.title }));
+  const filteredVideos = useMemo(
+    () => (videoFilter === "all" ? videos : videos.filter((v) => v.category === videoFilter)),
+    [videoFilter]
+  );
 
   return (
     <div>
@@ -77,16 +92,34 @@ const Portfolio = () => {
       <section className="bg-charcoal py-16">
         <div className="container">
           <SectionHeading title="Wideo görkezmeler" subtitle="Işlerimizi wideo arkaly görüň." light />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {videos.map((v) => (
-              <div key={v.title} className="relative group rounded overflow-hidden aspect-video bg-charcoal-foreground/5 cursor-pointer">
-                <img src={v.thumbnail} alt={v.title} className="w-full h-full object-cover opacity-60 group-hover:opacity-80 transition-opacity" loading="lazy" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-primary/90 flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Play className="text-primary-foreground ml-1" size={28} />
-                  </div>
-                </div>
-                <p className="absolute bottom-4 left-4 right-4 font-display text-sm text-charcoal-foreground uppercase tracking-wide">{v.title}</p>
+          {/* Video Filters */}
+          <div className="flex justify-center gap-3 mb-10 flex-wrap">
+            {videoFilters.map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setVideoFilter(f.key)}
+                className={`px-5 py-2 rounded font-display text-sm uppercase tracking-wider font-medium transition-colors ${
+                  videoFilter === f.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-charcoal-foreground/10 text-charcoal-foreground/70 hover:bg-charcoal-foreground/20"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
+          {/* Video Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredVideos.map((v, i) => (
+              <div key={`${v.src}-${i}`} className="rounded overflow-hidden bg-charcoal-foreground/5">
+                <video
+                  src={v.src}
+                  controls
+                  preload="metadata"
+                  className="w-full aspect-video object-cover"
+                  playsInline
+                />
+                <p className="px-3 py-2 font-display text-sm text-charcoal-foreground uppercase tracking-wide">{v.title}</p>
               </div>
             ))}
           </div>
