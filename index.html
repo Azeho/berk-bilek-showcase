@@ -34,8 +34,14 @@
         font-size: 11px !important;
       }
       #google_translate_element .goog-te-gadget-simple img { display: none !important; }
-      .goog-te-banner-frame, .goog-te-balloon-frame { display: none !important; }
-      body { top: 0 !important; }
+      .goog-te-banner-frame,
+      .goog-te-balloon-frame,
+      .skiptranslate > iframe,
+      #goog-gt-tt,
+      .goog-te-ftab-float { display: none !important; }
+      body, body.translated-ltr, body.translated-rtl { top: 0 !important; }
+      /* Keep navbar above translate dropdown */
+      nav { z-index: 9999 !important; }
     </style>
   </head>
 
