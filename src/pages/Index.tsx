@@ -25,7 +25,7 @@ const Index = () => {
   const [slide, setSlide] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setSlide((s) => (s + 1) % featured.length), 4000);
+    const t = setInterval(() => setSlide((s) => (s + 1) % featured.length), 3000);
     return () => clearInterval(t);
   }, [featured.length]);
 

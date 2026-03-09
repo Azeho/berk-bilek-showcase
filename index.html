@@ -23,9 +23,12 @@
       #goog-te-banner-frame,
       .goog-te-banner-frame,
       iframe.goog-te-banner-frame,
-      iframe.goog-te-balloon-frame { display: none !important; height: 0 !important; }
-      body, body.translated-ltr, body.translated-rtl { top: 0 !important; }
+      iframe.goog-te-balloon-frame,
+      .goog-te-balloon-frame { display: none !important; height: 0 !important; visibility: hidden !important; }
+      body, body.translated-ltr, body.translated-rtl { top: 0 !important; margin-top: 0 !important; }
+      #goog-te-ft { display: none !important; }
       nav { z-index: 9999 !important; }
+      .skiptranslate > iframe { height: 0 !important; display: none !important; }
     </style>
     <script>
       (function () {

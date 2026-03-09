@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, Globe } from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const navLinks = [
@@ -14,7 +14,37 @@ const navLinks = [
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
+  const [showTranslate, setShowTranslate] = useState(false);
   const location = useLocation();
+  const translateBtnRef = useRef<HTMLButtonElement>(null);
+
+  // Position and show/hide the Google Translate widget under the globe button
+  useEffect(() => {
+    const el = document.getElementById("google_translate_element");
+    if (!el) return;
+    if (showTranslate) {
+      const btn = translateBtnRef.current;
+      if (btn) {
+        const rect = btn.getBoundingClientRect();
+        el.style.cssText = `display:block;position:fixed;top:${rect.bottom + 4}px;right:${window.innerWidth - rect.right}px;z-index:99999;background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,0.25);padding:6px 10px;`;
+      }
+    } else {
+      el.style.display = "none";
+    }
+  }, [showTranslate]);
+
+  // Close on outside click
+  useEffect(() => {
+    if (!showTranslate) return;
+    const handler = (e: MouseEvent) => {
+      const el = document.getElementById("google_translate_element");
+      if (el && !el.contains(e.target as Node) && !translateBtnRef.current?.contains(e.target as Node)) {
+        setShowTranslate(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [showTranslate]);
 
   return (
     <nav className="sticky top-0 z-50 bg-charcoal border-b border-charcoal/80">
@@ -38,19 +68,37 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
+          <button
+            ref={translateBtnRef}
+            onClick={() => setShowTranslate((v) => !v)}
+            title="Translate"
+            className={`ml-2 p-2 rounded transition-colors ${showTranslate ? "text-primary" : "text-charcoal-foreground/70 hover:text-charcoal-foreground"}`}
+          >
+            <Globe size={18} />
+          </button>
           <a
             href="tel:+993127650010"
-            className="ml-4 flex items-center gap-2 btn-cta text-primary-foreground px-4 py-2 rounded text-sm font-semibold"
+            className="ml-2 flex items-center gap-2 btn-cta text-primary-foreground px-4 py-2 rounded text-sm font-semibold"
           >
             <Phone size={14} />
             Jaň ediň
           </a>
         </div>
 
-        {/* Mobile toggle */}
-        <button onClick={() => setOpen(!open)} className="lg:hidden text-charcoal-foreground">
+        {/* Mobile translate + toggle */}
+        <div className="lg:hidden flex items-center gap-2">
+          <button
+            ref={translateBtnRef}
+            onClick={() => setShowTranslate((v) => !v)}
+            title="Translate"
+            className={`p-2 rounded transition-colors ${showTranslate ? "text-primary" : "text-charcoal-foreground/70"}`}
+          >
+            <Globe size={18} />
+          </button>
+        <button onClick={() => setOpen(!open)} className="text-charcoal-foreground">
           {open ? <X size={24} /> : <Menu size={24} />}
         </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
