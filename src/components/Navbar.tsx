@@ -45,7 +45,6 @@ const Navbar = () => {
             <Phone size={14} />
             Jaň ediň
           </a>
-          <div id="google_translate_element" className="ml-3" />
         </div>
 
         {/* Mobile toggle */}
