@@ -70,6 +70,15 @@ const Navbar = () => {
               {link.label}
             </Link>
           ))}
+          <div className="px-6 pt-3">
+            <a
+              href="tel:+993127650010"
+              className="flex items-center justify-center gap-2 btn-cta text-primary-foreground px-4 py-2 rounded text-sm font-semibold w-full"
+            >
+              <Phone size={14} />
+              Jaň ediň
+            </a>
+          </div>
         </div>
       )}
     </nav>
