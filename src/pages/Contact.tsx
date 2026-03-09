@@ -1,14 +1,22 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import ReCAPTCHA from "react-google-recaptcha";
+
+const RECAPTCHA_SITE_KEY = "6Ledu4QsAAAAAPz5tBGwCKJjF8-eQAYLwcxCBI5D";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!captchaVerified) return;
     alert("Hatyňyz üstünlikli iberildi!");
     setForm({ name: "", email: "", message: "" });
+    setCaptchaVerified(false);
+    recaptchaRef.current?.reset();
   };
 
   return (
@@ -89,7 +97,17 @@ const Contact = () => {
                   className="w-full border border-border rounded px-4 py-3 bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 resize-none"
                 />
               </div>
-              <button type="submit" className="btn-cta text-primary-foreground px-6 py-3 rounded font-semibold inline-flex items-center gap-2">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={RECAPTCHA_SITE_KEY}
+                onChange={(token) => setCaptchaVerified(!!token)}
+                onExpired={() => setCaptchaVerified(false)}
+              />
+              <button
+                type="submit"
+                disabled={!captchaVerified}
+                className="btn-cta text-primary-foreground px-6 py-3 rounded font-semibold inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 Ibermek <Send size={16} />
               </button>
             </form>
