@@ -42,11 +42,11 @@ const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
   { src: "https://berkbilek.org/videoshorts/v12m.mp4", title: "Metal işleri",            categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v13m.mp4", title: "Metal işleri",            categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v15f.mp4", title: "Mebel işleri",            categories: ["gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v18m.mp4", title: "Metal we Mebel işleri",   categories: ["metal", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v19m.mp4", title: "Metal we Mebel işleri",   categories: ["metal", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v20m.mp4", title: "Metal işleri",            categories: ["metal"] },
-  { src: "https://berkbilek.org/videoshorts/v21m.mp4", title: "Metal we Gurnama işleri", categories: ["metal", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v22m.mp4", title: "Metal we Gurnama işleri", categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v18mf.mp4", title: "Metal we Mebel işleri",   categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v19mf.mp4", title: "Metal we Mebel işleri",   categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v20m.mp4",  title: "Metal işleri",            categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v21c.mp4",  title: "Metal we Gurnama işleri", categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v22c.mp4",  title: "Metal we Gurnama işleri", categories: ["metal", "gurnama"] },
 ];
 
 const Metalworks = () => {
