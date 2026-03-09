@@ -20,13 +20,24 @@ const videoFilters: { key: VideoFilter; label: string }[] = [
   { key: "gurnama", label: "Gurnama" },
 ];
 
-const videos: { src: string; title: string; category: VideoFilter }[] = [
-  { src: "https://berkbilek.org/videoshorts/v1m.mp4", title: "Metal işleri", category: "metal" },
-  { src: "https://berkbilek.org/videoshorts/v2m.mp4", title: "Metal işleri", category: "metal" },
-  { src: "https://berkbilek.org/videoshorts/v3m.mp4", title: "Metal işleri", category: "metal" },
-  { src: "https://berkbilek.org/videoshorts/v4m.mp4", title: "Metal işleri", category: "metal" },
-  { src: "https://berkbilek.org/videoshorts/v5m.mp4", title: "Metal işleri", category: "metal" },
-  { src: "https://berkbilek.org/videoshorts/v9m.mp4", title: "Metal işleri", category: "metal" },
+const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
+  { src: "https://berkbilek.org/videoshorts/v1m.mp4",  title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v2m.mp4",  title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v3m.mp4",  title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v4m.mp4",  title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v5m.mp4",  title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v9m.mp4",  title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v10m.mp4", title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v12m.mp4", title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v13m.mp4", title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v15f.mp4", title: "Mebel işleri",           categories: ["gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v16r.mp4", title: "Mahabat hyzmatlary",     categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/v17r.mp4", title: "Mahabat hyzmatlary",     categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/v18m.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v19m.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v20m.mp4", title: "Metal işleri",           categories: ["metal"] },
+  { src: "https://berkbilek.org/videoshorts/v21m.mp4", title: "Metal we Gurnama işleri",categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v22m.mp4", title: "Metal we Gurnama işleri",categories: ["metal", "gurnama"] },
 ];
 
 const Portfolio = () => {
@@ -41,7 +52,7 @@ const Portfolio = () => {
 
   const lightboxImages = filtered.map((p) => ({ src: p.image, title: p.title }));
   const filteredVideos = useMemo(
-    () => (videoFilter === "all" ? videos : videos.filter((v) => v.category === videoFilter)),
+    () => (videoFilter === "all" ? videos : videos.filter((v) => v.categories.includes(videoFilter))),
     [videoFilter]
   );
 
@@ -122,6 +133,9 @@ const Portfolio = () => {
                 <p className="px-3 py-2 font-display text-sm text-charcoal-foreground uppercase tracking-wide">{v.title}</p>
               </div>
             ))}
+            {filteredVideos.length === 0 && (
+              <p className="col-span-full text-center text-charcoal-foreground/50 py-10">Wideo ýok.</p>
+            )}
           </div>
         </div>
       </section>
