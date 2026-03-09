@@ -16,14 +16,22 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
   const [showTranslate, setShowTranslate] = useState(false);
   const location = useLocation();
-  const translateBtnRef = useRef<HTMLButtonElement>(null);
+  const desktopBtnRef = useRef<HTMLButtonElement>(null);
+  const mobileBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Position and show/hide the Google Translate widget under the globe button
+  const getVisibleBtn = () => {
+    // Return whichever button is actually visible (non-zero bounding rect)
+    const d = desktopBtnRef.current;
+    if (d && d.getBoundingClientRect().width > 0) return d;
+    return mobileBtnRef.current;
+  };
+
+  // Position and show/hide the Google Translate widget under the visible globe button
   useEffect(() => {
     const el = document.getElementById("google_translate_element");
     if (!el) return;
     if (showTranslate) {
-      const btn = translateBtnRef.current;
+      const btn = getVisibleBtn();
       if (btn) {
         const rect = btn.getBoundingClientRect();
         el.style.cssText = `display:block;position:fixed;top:${rect.bottom + 4}px;right:${window.innerWidth - rect.right}px;z-index:99999;background:#fff;border-radius:6px;box-shadow:0 4px 16px rgba(0,0,0,0.25);padding:6px 10px;`;
@@ -38,7 +46,8 @@ const Navbar = () => {
     if (!showTranslate) return;
     const handler = (e: MouseEvent) => {
       const el = document.getElementById("google_translate_element");
-      if (el && !el.contains(e.target as Node) && !translateBtnRef.current?.contains(e.target as Node)) {
+      const clickedBtn = desktopBtnRef.current?.contains(e.target as Node) || mobileBtnRef.current?.contains(e.target as Node);
+      if (el && !el.contains(e.target as Node) && !clickedBtn) {
         setShowTranslate(false);
       }
     };
@@ -69,7 +78,7 @@ const Navbar = () => {
             </Link>
           ))}
           <button
-            ref={translateBtnRef}
+            ref={desktopBtnRef}
             onClick={() => setShowTranslate((v) => !v)}
             title="Translate"
             className={`ml-2 p-2 rounded transition-colors ${showTranslate ? "text-primary" : "text-charcoal-foreground/70 hover:text-charcoal-foreground"}`}
@@ -88,7 +97,7 @@ const Navbar = () => {
         {/* Mobile translate + toggle */}
         <div className="lg:hidden flex items-center gap-2">
           <button
-            ref={translateBtnRef}
+            ref={mobileBtnRef}
             onClick={() => setShowTranslate((v) => !v)}
             title="Translate"
             className={`p-2 rounded transition-colors ${showTranslate ? "text-primary" : "text-charcoal-foreground/70"}`}
