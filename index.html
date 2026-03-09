@@ -20,10 +20,27 @@
     </script>
     <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
     <style>
+      #goog-te-banner-frame,
+      .goog-te-banner-frame,
       iframe.goog-te-banner-frame,
-      iframe.goog-te-balloon-frame { display: none !important; }
+      iframe.goog-te-balloon-frame { display: none !important; height: 0 !important; }
       body, body.translated-ltr, body.translated-rtl { top: 0 !important; }
+      nav { z-index: 9999 !important; }
     </style>
+    <script>
+      (function () {
+        function suppressBanner() {
+          var el = document.getElementById('goog-te-banner-frame');
+          if (el) { el.style.setProperty('display', 'none', 'important'); el.style.setProperty('height', '0', 'important'); }
+          document.body && document.body.style.setProperty('top', '0', 'important');
+        }
+        var obs = new MutationObserver(suppressBanner);
+        document.addEventListener('DOMContentLoaded', function () {
+          obs.observe(document.body, { childList: true, subtree: true, attributes: true });
+          suppressBanner();
+        });
+      })();
+    </script>
   </head>
 
   <body>
