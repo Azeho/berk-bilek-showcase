@@ -2,6 +2,7 @@ import { useState, useMemo } from "react";
 import { Scissors, Lightbulb, ShieldCheck } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
+import Lightbox from "@/components/Lightbox";
 import { projects } from "@/data/projects";
 import heroImg from "@/assets/hero-metalworks.jpg";
 
@@ -52,6 +53,8 @@ const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
 const Metalworks = () => {
   const metalProjects = projects.filter((p) => p.category === "metal");
   const [videoFilter, setVideoFilter] = useState<VideoFilter>("all");
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxImages = metalProjects.map((p) => ({ src: p.image, title: p.title }));
 
   const filteredVideos = useMemo(
     () => (videoFilter === "all" ? videos : videos.filter((v) => v.categories.includes(videoFilter))),
@@ -95,12 +98,22 @@ const Metalworks = () => {
         <div className="container">
           <SectionHeading title="Metal işleri taslamalary" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {metalProjects.map((p) => (
-              <ProjectCard key={p.id} image={p.image} title={p.title} />
+            {metalProjects.map((p, i) => (
+              <ProjectCard key={p.id} image={p.image} title={p.title} onClick={() => setLightboxIndex(i)} />
             ))}
           </div>
         </div>
       </section>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={lightboxImages}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNext={() => setLightboxIndex((lightboxIndex + 1) % metalProjects.length)}
+          onPrev={() => setLightboxIndex((lightboxIndex - 1 + metalProjects.length) % metalProjects.length)}
+        />
+      )}
 
       {/* Video Section */}
       <section className="bg-charcoal py-16">

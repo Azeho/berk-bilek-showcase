@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Printer, MonitorPlay, Box } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
+import Lightbox from "@/components/Lightbox";
 import { projects } from "@/data/projects";
 import heroImg from "@/assets/hero-advertising.jpg";
 
@@ -29,6 +31,8 @@ const videos = [
 
 const Advertising = () => {
   const adProjects = projects.filter((p) => p.category === "advertising");
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const lightboxImages = adProjects.map((p) => ({ src: p.image, title: p.title }));
 
   return (
     <div>
@@ -67,12 +71,22 @@ const Advertising = () => {
         <div className="container">
           <SectionHeading title="Mahabat taslamalary" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {adProjects.map((p) => (
-              <ProjectCard key={p.id} image={p.image} title={p.title} />
+            {adProjects.map((p, i) => (
+              <ProjectCard key={p.id} image={p.image} title={p.title} onClick={() => setLightboxIndex(i)} />
             ))}
           </div>
         </div>
       </section>
+
+      {lightboxIndex !== null && (
+        <Lightbox
+          images={lightboxImages}
+          currentIndex={lightboxIndex}
+          onClose={() => setLightboxIndex(null)}
+          onNext={() => setLightboxIndex((lightboxIndex + 1) % adProjects.length)}
+          onPrev={() => setLightboxIndex((lightboxIndex - 1 + adProjects.length) % adProjects.length)}
+        />
+      )}
 
       {/* Video Section */}
       <section className="bg-charcoal py-16">
