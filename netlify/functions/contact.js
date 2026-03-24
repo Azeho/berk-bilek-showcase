@@ -1,24 +1,15 @@
 const https = require("https");
 const nodemailer = require("nodemailer");
 
-const SITE_KEY = "6Ledu4QsAAAAAPz5tBGwCKJF8-eQAYLwcxCBI5D";
-
-function createEnterpriseAssessment(token, apiKey, projectId) {
+function verifyRecaptcha(token, secretKey) {
   return new Promise((resolve, reject) => {
-    const postData = JSON.stringify({
-      event: {
-        token,
-        siteKey: SITE_KEY,
-        expectedAction: "submit",
-      },
-    });
-
+    const postData = `secret=${secretKey}&response=${token}`;
     const options = {
-      hostname: "recaptchaenterprise.googleapis.com",
-      path: `/v1/projects/${projectId}/assessments?key=${apiKey}`,
+      hostname: "www.google.com",
+      path: "/recaptcha/api/siteverify",
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
         "Content-Length": Buffer.byteLength(postData),
       },
     };
@@ -30,7 +21,7 @@ function createEnterpriseAssessment(token, apiKey, projectId) {
         try {
           resolve(JSON.parse(data));
         } catch (e) {
-          reject(new Error("Failed to parse reCAPTCHA Enterprise response"));
+          reject(new Error("Failed to parse reCAPTCHA response"));
         }
       });
     });
@@ -59,32 +50,23 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: JSON.stringify({ error: "Missing required fields" }) };
   }
 
-  // Verify reCAPTCHA Enterprise token server-side
-  const apiKey = process.env.RECAPTCHA_API_KEY;
-  const projectId = process.env.RECAPTCHA_PROJECT_ID || "vpn-project-2020";
-
-  if (!apiKey) {
-    return { statusCode: 500, body: JSON.stringify({ error: "reCAPTCHA API key not configured" }) };
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+  if (!secretKey) {
+    return { statusCode: 500, body: JSON.stringify({ error: "reCAPTCHA secret key not configured" }) };
   }
 
-  let assessment;
+  let recaptchaResult;
   try {
-    assessment = await createEnterpriseAssessment(captchaToken, apiKey, projectId);
+    recaptchaResult = await verifyRecaptcha(captchaToken, secretKey);
   } catch {
-    return { statusCode: 500, body: JSON.stringify({ error: "reCAPTCHA assessment failed" }) };
+    return { statusCode: 500, body: JSON.stringify({ error: "reCAPTCHA verification failed" }) };
   }
 
-  // Enterprise returns tokenProperties.valid and riskAnalysis.score (0.0–1.0, higher = more human)
-  if (!assessment.tokenProperties?.valid) {
+  if (!recaptchaResult.success) {
     return {
       statusCode: 400,
-      body: JSON.stringify({ error: "Invalid reCAPTCHA token", reason: assessment.tokenProperties?.invalidReason }),
+      body: JSON.stringify({ error: "reCAPTCHA verification failed", codes: recaptchaResult["error-codes"] }),
     };
-  }
-
-  const score = assessment.riskAnalysis?.score ?? 0;
-  if (score < 0.5) {
-    return { statusCode: 400, body: JSON.stringify({ error: "reCAPTCHA score too low" }) };
   }
 
   // Send email via Gmail SMTP
