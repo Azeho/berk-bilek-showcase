@@ -3,20 +3,42 @@ import { Phone, Mail, MapPin, Send } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const RECAPTCHA_SITE_KEY = "6Ledu4QsAAAAAPz5tBGwCKJjF8-eQAYLwcxCBI5D";
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6Ledu4QsAAAAAP25tBGwCKJfF8-eQAYLwcxCBI5D";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
-  const [captchaVerified, setCaptchaVerified] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!captchaVerified) return;
-    alert("Hatyňyz üstünlikli iberildi!");
-    setForm({ name: "", email: "", message: "" });
-    setCaptchaVerified(false);
-    recaptchaRef.current?.reset();
+    if (!captchaToken) return;
+
+    setSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const res = await fetch("/.netlify/functions/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...form, captchaToken }),
+      });
+
+      if (res.ok) {
+        setSubmitStatus("success");
+        setForm({ name: "", email: "", message: "" });
+        setCaptchaToken(null);
+        recaptchaRef.current?.reset();
+      } else {
+        setSubmitStatus("error");
+      }
+    } catch {
+      setSubmitStatus("error");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -100,15 +122,21 @@ const Contact = () => {
               <ReCAPTCHA
                 ref={recaptchaRef}
                 sitekey={RECAPTCHA_SITE_KEY}
-                onChange={(token) => setCaptchaVerified(!!token)}
-                onExpired={() => setCaptchaVerified(false)}
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
               />
+              {submitStatus === "success" && (
+                <p className="text-green-600 text-sm font-medium">Hatyňyz üstünlikli iberildi!</p>
+              )}
+              {submitStatus === "error" && (
+                <p className="text-red-500 text-sm font-medium">Iberilmedi. Täzeden synanyşyň.</p>
+              )}
               <button
                 type="submit"
-                disabled={!captchaVerified}
+                disabled={!captchaToken || submitting}
                 className="btn-cta text-primary-foreground px-6 py-3 rounded font-semibold inline-flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Ibermek <Send size={16} />
+                {submitting ? "Iberilýär..." : <><span>Ibermek</span><Send size={16} /></>}
               </button>
             </form>
           </div>
