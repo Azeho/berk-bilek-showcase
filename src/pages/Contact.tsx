@@ -3,7 +3,7 @@ import { Phone, Mail, MapPin, Send } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ReCAPTCHA from "react-google-recaptcha";
 
-const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6Ledu4QsAAAAAP25tBGwCKJfF8-eQAYLwcxCBI5D";
+const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LfpDqEsAAAAAPAdfDUZysGeLGvAihbomABEJaTA";
 
 const Contact = () => {
   const [form, setForm] = useState({ name: "", email: "", message: "" });
