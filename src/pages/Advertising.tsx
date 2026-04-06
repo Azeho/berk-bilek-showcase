@@ -5,6 +5,7 @@ import ProjectCard from "@/components/ProjectCard";
 import Lightbox from "@/components/Lightbox";
 import { projects } from "@/data/projects";
 import heroImg from "@/assets/hero-advertising.jpg";
+import { useCanonical } from "@/hooks/useCanonical";
 
 const services = [
   {
@@ -30,6 +31,7 @@ const videos = [
 ];
 
 const Advertising = () => {
+  useCanonical("/advertising");
   const adProjects = projects.filter((p) => p.category === "advertising");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const lightboxImages = adProjects.map((p) => ({ src: p.image, title: p.title }));

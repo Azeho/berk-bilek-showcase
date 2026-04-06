@@ -4,6 +4,7 @@ import { ArrowRight, Shield, Wrench, Monitor, Award, ChevronLeft, ChevronRight }
 import heroImg from "@/assets/hero-home.jpg";
 import SectionHeading from "@/components/SectionHeading";
 import { projects } from "@/data/projects";
+import { useCanonical } from "@/hooks/useCanonical";
 
 const stats = [
   { icon: Award, value: "20+", label: "Ýyl tejribe" },
@@ -13,6 +14,7 @@ const stats = [
 ];
 
 const Index = () => {
+  useCanonical("/");
   const featured = useMemo(() => {
     const pool = [...projects];
     for (let i = pool.length - 1; i > 0; i--) {

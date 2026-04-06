@@ -3,6 +3,7 @@ import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
 import Lightbox from "@/components/Lightbox";
 import { projects, ProjectCategory } from "@/data/projects";
+import { useCanonical } from "@/hooks/useCanonical";
 
 type Filter = "all" | ProjectCategory;
 type VideoFilter = "all" | "metal" | "mahabat" | "gurnama";
@@ -41,6 +42,7 @@ const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
 ];
 
 const Portfolio = () => {
+  useCanonical("/portfolio");
   const [filter, setFilter] = useState<Filter>("all");
   const [videoFilter, setVideoFilter] = useState<VideoFilter>("all");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);

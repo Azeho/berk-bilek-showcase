@@ -5,6 +5,7 @@ import ProjectCard from "@/components/ProjectCard";
 import Lightbox from "@/components/Lightbox";
 import { projects } from "@/data/projects";
 import heroImg from "@/assets/hero-metalworks.jpg";
+import { useCanonical } from "@/hooks/useCanonical";
 
 const services = [
   {
@@ -51,6 +52,7 @@ const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
 ];
 
 const Metalworks = () => {
+  useCanonical("/metalworks");
   const metalProjects = projects.filter((p) => p.category === "metal");
   const [videoFilter, setVideoFilter] = useState<VideoFilter>("all");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);

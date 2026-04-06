@@ -2,10 +2,12 @@ import { useState, useRef } from "react";
 import { Phone, Mail, MapPin, Send } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ReCAPTCHA from "react-google-recaptcha";
+import { useCanonical } from "@/hooks/useCanonical";
 
 const RECAPTCHA_SITE_KEY = import.meta.env.VITE_RECAPTCHA_SITE_KEY || "6LfpDqEsAAAAAPAdfDUZysGeLGvAihbomABEJaTA";
 
 const Contact = () => {
+  useCanonical("/contact");
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);

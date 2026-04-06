@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Award, Users, Target, CheckCircle, ChevronDown, ChevronUp } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
+import { useCanonical } from "@/hooks/useCanonical";
 
 const values = [
   { icon: Award, title: "20 ýyllyk tejribe", desc: "Pudakda iki onýyllykdan gowrak iş tejribesi." },
@@ -10,6 +11,7 @@ const values = [
 ];
 
 const About = () => {
+  useCanonical("/about");
   const [expanded, setExpanded] = useState(false);
 
   return (
