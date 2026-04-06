@@ -6,18 +6,19 @@ import { projects, ProjectCategory } from "@/data/projects";
 import { useCanonical } from "@/hooks/useCanonical";
 
 type Filter = "all" | ProjectCategory;
-type VideoFilter = "all" | "metal" | "mahabat" | "gurnama";
+type VideoFilter = "all" | "metal" | "mahabat" | "mebel" | "gurnama";
 
 const filters: { key: Filter; label: string }[] = [
   { key: "all", label: "Hemmesi" },
-  { key: "metal", label: "Metal işleri" },
+  { key: "metal", label: "Metal/Mebel işleri" },
   { key: "advertising", label: "Mahabat hyzmatlary" },
 ];
 
 const videoFilters: { key: VideoFilter; label: string }[] = [
-  { key: "all", label: "Hemmesi" },
-  { key: "metal", label: "Metal" },
+  { key: "all",     label: "Hemmesi" },
+  { key: "metal",   label: "Metal" },
   { key: "mahabat", label: "Mahabat" },
+  { key: "mebel",   label: "Mebel" },
   { key: "gurnama", label: "Gurnama" },
 ];
 
@@ -31,11 +32,11 @@ const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
   { src: "https://berkbilek.org/videoshorts/v10m.mp4", title: "Metal işleri",           categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v12m.mp4", title: "Metal işleri",           categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v13m.mp4", title: "Metal işleri",           categories: ["metal"] },
-  { src: "https://berkbilek.org/videoshorts/v15f.mp4", title: "Mebel işleri",           categories: ["gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v16r.mp4", title: "Mahabat hyzmatlary",     categories: ["mahabat"] },
-  { src: "https://berkbilek.org/videoshorts/v17r.mp4", title: "Mahabat hyzmatlary",     categories: ["mahabat"] },
-  { src: "https://berkbilek.org/videoshorts/v18mf.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v19mf.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v15f.mp4",  title: "Mebel işleri",           categories: ["mebel"] },
+  { src: "https://berkbilek.org/videoshorts/v16r.mp4",  title: "Mahabat hyzmatlary",     categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/v17r.mp4",  title: "Mahabat hyzmatlary",     categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/v18mf.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "mebel"] },
+  { src: "https://berkbilek.org/videoshorts/v19mf.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "mebel"] },
   { src: "https://berkbilek.org/videoshorts/v20m.mp4",  title: "Metal işleri",           categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v21c.mp4",  title: "Metal we Gurnama işleri",categories: ["metal", "gurnama"] },
   { src: "https://berkbilek.org/videoshorts/v22c.mp4",  title: "Metal we Gurnama işleri",categories: ["metal", "gurnama"] },

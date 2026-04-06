@@ -25,11 +25,12 @@ const services = [
   },
 ];
 
-type VideoFilter = "all" | "metal" | "gurnama";
+type VideoFilter = "all" | "metal" | "mebel" | "gurnama";
 
 const videoFilters: { key: VideoFilter; label: string }[] = [
   { key: "all",     label: "Hemmesi" },
   { key: "metal",   label: "Metal" },
+  { key: "mebel",   label: "Mebel" },
   { key: "gurnama", label: "Gurnama" },
 ];
 
@@ -43,9 +44,9 @@ const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
   { src: "https://berkbilek.org/videoshorts/v10m.mp4", title: "Metal işleri",            categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v12m.mp4", title: "Metal işleri",            categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v13m.mp4", title: "Metal işleri",            categories: ["metal"] },
-  { src: "https://berkbilek.org/videoshorts/v15f.mp4", title: "Mebel işleri",            categories: ["gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v18mf.mp4", title: "Metal we Mebel işleri",   categories: ["metal", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/v19mf.mp4", title: "Metal we Mebel işleri",   categories: ["metal", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/v15f.mp4",  title: "Mebel işleri",           categories: ["mebel"] },
+  { src: "https://berkbilek.org/videoshorts/v18mf.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "mebel"] },
+  { src: "https://berkbilek.org/videoshorts/v19mf.mp4", title: "Metal we Mebel işleri",  categories: ["metal", "mebel"] },
   { src: "https://berkbilek.org/videoshorts/v20m.mp4",  title: "Metal işleri",            categories: ["metal"] },
   { src: "https://berkbilek.org/videoshorts/v21c.mp4",  title: "Metal we Gurnama işleri", categories: ["metal", "gurnama"] },
   { src: "https://berkbilek.org/videoshorts/v22c.mp4",  title: "Metal we Gurnama işleri", categories: ["metal", "gurnama"] },
@@ -71,7 +72,7 @@ const Metalworks = () => {
         <div className="absolute inset-0 hero-overlay opacity-85" />
         <div className="relative container z-10">
           <h1 className="font-display text-4xl md:text-5xl font-bold text-charcoal-foreground uppercase tracking-wider">
-            Metal işleri
+            Metal/Mebel işleri
           </h1>
           <p className="mt-3 text-charcoal-foreground/70 max-w-lg">
             Ýokary hilli metal önümleri we infrastruktura çözgütleri.
@@ -98,7 +99,7 @@ const Metalworks = () => {
       {/* Projects */}
       <section className="bg-muted py-20">
         <div className="container">
-          <SectionHeading title="Metal işleri taslamalary" />
+          <SectionHeading title="Metal/Mebel işleri taslamalary" />
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {metalProjects.map((p, i) => (
               <ProjectCard key={p.id} image={p.image} title={p.title} onClick={() => setLightboxIndex(i)} />

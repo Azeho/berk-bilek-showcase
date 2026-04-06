@@ -28,7 +28,7 @@ const Footer = () => (
           {[
             { to: "/", label: "Baş sahypa" },
             { to: "/portfolio", label: "Işlerimiz" },
-            { to: "/metalworks", label: "Metal işleri" },
+            { to: "/metalworks", label: "Metal/Mebel işleri" },
             { to: "/advertising", label: "Mahabat hyzmatlary" },
             { to: "/about", label: "Biz barada" },
             { to: "/contact", label: "Habarlaşmak" },

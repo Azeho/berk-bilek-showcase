@@ -123,8 +123,8 @@ const Index = () => {
           <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             <Link to="/metalworks" className="group bg-charcoal-foreground/5 border border-charcoal-foreground/10 rounded-lg p-8 hover:border-primary/50 transition-colors">
               <Wrench className="text-primary mb-4" size={32} />
-              <h3 className="font-display text-xl font-semibold text-charcoal-foreground uppercase">Metal işleri</h3>
-              <p className="mt-2 text-sm text-charcoal-foreground/60">Metal kesmek, infrastruktura taslamalary we ýol howpsuzlyk enjamlary.</p>
+              <h3 className="font-display text-xl font-semibold text-charcoal-foreground uppercase">Metal/Mebel işleri</h3>
+              <p className="mt-2 text-sm text-charcoal-foreground/60">Metal kesmek, mebel önümçiligi, infrastruktura taslamalary we ýol howpsuzlyk enjamlary.</p>
             </Link>
             <Link to="/advertising" className="group bg-charcoal-foreground/5 border border-charcoal-foreground/10 rounded-lg p-8 hover:border-primary/50 transition-colors">
               <Monitor className="text-primary mb-4" size={32} />
