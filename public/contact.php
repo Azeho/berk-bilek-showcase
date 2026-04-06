@@ -26,20 +26,25 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit;
 }
 
-// Verify reCAPTCHA v2
-$secret   = '6LfpDqEsAAAAAG65bji1WfM7Wk_lZ8v5GdDT9Elq';
-$postData = http_build_query(['secret' => $secret, 'response' => $token]);
-$ctx      = stream_context_create(['http' => [
-    'method'  => 'POST',
-    'header'  => 'Content-Type: application/x-www-form-urlencoded',
-    'content' => $postData,
-]]);
-$verify = @file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $ctx);
-$captcha = $verify ? json_decode($verify, true) : null;
+// Verify reCAPTCHA v2 using cURL
+$secret = '6LfpDqEsAAAAAG65bji1WfM7Wk_lZ8v5GdDT9Elq';
+$ch = curl_init('https://www.google.com/recaptcha/api/siteverify');
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST           => true,
+    CURLOPT_POSTFIELDS     => http_build_query(['secret' => $secret, 'response' => $token]),
+    CURLOPT_TIMEOUT        => 10,
+    CURLOPT_SSL_VERIFYPEER => true,
+]);
+$verify  = curl_exec($ch);
+$curlErr = curl_error($ch);
+curl_close($ch);
+
+$captcha = ($verify && !$curlErr) ? json_decode($verify, true) : null;
 
 if (!$captcha || !$captcha['success']) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'error' => 'reCAPTCHA failed']);
+    echo json_encode(['success' => false, 'error' => 'reCAPTCHA failed', 'detail' => $curlErr]);
     exit;
 }
 
