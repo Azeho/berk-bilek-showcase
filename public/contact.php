@@ -75,8 +75,8 @@ $emailBody .= "Message:\n" . $message . "\n\n";
 $emailBody .= "---\n";
 $emailBody .= "This email was sent from the contact form at berk-bilek.com";
 
-$headers  = "From: "       . $email . "\r\n";
-$headers .= "Reply-To: "   . $email . "\r\n";
+$headers  = "From: Berk Bilek Contact <info@berk-bilek.com>\r\n";
+$headers .= "Reply-To: " . $email . "\r\n";
 $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
@@ -85,8 +85,8 @@ $mailSent = mail($to, $subject, $emailBody, $headers);
 
 // Also CC berkbilek2020@gmail.com
 if ($mailSent) {
-    $ccHeaders  = "From: "       . $email . "\r\n";
-    $ccHeaders .= "Reply-To: "   . $email . "\r\n";
+    $ccHeaders  = "From: Berk Bilek Contact <info@berk-bilek.com>\r\n";
+    $ccHeaders .= "Reply-To: " . $email . "\r\n";
     $ccHeaders .= "X-Mailer: PHP/" . phpversion() . "\r\n";
     $ccHeaders .= "MIME-Version: 1.0\r\n";
     $ccHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
