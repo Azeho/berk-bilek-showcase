@@ -35,19 +35,19 @@ const videoFilters: { key: VideoFilter; label: string }[] = [
 
 const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
   // Mahabat
-  { src: "https://berkbilek.org/videoshorts/r1.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
-  { src: "https://berkbilek.org/videoshorts/r2.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
-  { src: "https://berkbilek.org/videoshorts/r9.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
-  { src: "https://berkbilek.org/videoshorts/r12.mp4",  title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berk-bilek.com/videoshorts/r1.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berk-bilek.com/videoshorts/r2.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berk-bilek.com/videoshorts/r9.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berk-bilek.com/videoshorts/r12.mp4",  title: "Mahabat işleri",            categories: ["mahabat"] },
   // Mahabat + Gurnama
-  { src: "https://berkbilek.org/videoshorts/rg3.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg4.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg5.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg6.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg7.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg8.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg10.mp4", title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
-  { src: "https://berkbilek.org/videoshorts/rg11.mp4", title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg3.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg4.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg5.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg6.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg7.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg8.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg10.mp4", title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berk-bilek.com/videoshorts/rg11.mp4", title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
 ];
 
 const Advertising = () => {
