@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Printer, MonitorPlay, Box } from "lucide-react";
 import SectionHeading from "@/components/SectionHeading";
 import ProjectCard from "@/components/ProjectCard";
@@ -25,16 +25,41 @@ const services = [
   },
 ];
 
-const videos = [
-  { src: "https://berkbilek.org/videoshorts/v16r.mp4", title: "Mahabat hyzmatlary" },
-  { src: "https://berkbilek.org/videoshorts/v17r.mp4", title: "Mahabat hyzmatlary" },
+type VideoFilter = "all" | "mahabat" | "gurnama";
+
+const videoFilters: { key: VideoFilter; label: string }[] = [
+  { key: "all",     label: "Hemmesi" },
+  { key: "mahabat", label: "Mahabat" },
+  { key: "gurnama", label: "Gurnama" },
+];
+
+const videos: { src: string; title: string; categories: VideoFilter[] }[] = [
+  // Mahabat
+  { src: "https://berkbilek.org/videoshorts/r1.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/r2.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/r9.mp4",   title: "Mahabat işleri",            categories: ["mahabat"] },
+  { src: "https://berkbilek.org/videoshorts/r12.mp4",  title: "Mahabat işleri",            categories: ["mahabat"] },
+  // Mahabat + Gurnama
+  { src: "https://berkbilek.org/videoshorts/rg3.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg4.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg5.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg6.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg7.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg8.mp4",  title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg10.mp4", title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
+  { src: "https://berkbilek.org/videoshorts/rg11.mp4", title: "Mahabat we Gurnama işleri", categories: ["mahabat", "gurnama"] },
 ];
 
 const Advertising = () => {
   useCanonical("/advertising");
   const adProjects = projects.filter((p) => p.category === "advertising");
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [videoFilter, setVideoFilter] = useState<VideoFilter>("all");
   const lightboxImages = adProjects.map((p) => ({ src: p.image, title: p.title }));
+  const filteredVideos = useMemo(
+    () => (videoFilter === "all" ? videos : videos.filter((v) => v.categories.includes(videoFilter))),
+    [videoFilter]
+  );
 
   return (
     <div>
@@ -94,9 +119,25 @@ const Advertising = () => {
       <section className="bg-charcoal py-16">
         <div className="container">
           <SectionHeading title="Wideo görkezmeler" subtitle="Işlerimizi wideo arkaly görüň." light />
+          {/* Video Filters */}
+          <div className="flex justify-center gap-3 mb-10 flex-wrap">
+            {videoFilters.map((f) => (
+              <button
+                key={f.key}
+                onClick={() => setVideoFilter(f.key)}
+                className={`px-5 py-2 rounded font-display text-sm uppercase tracking-wider font-medium transition-colors ${
+                  videoFilter === f.key
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-charcoal-foreground/10 text-charcoal-foreground/70 hover:bg-charcoal-foreground/20"
+                }`}
+              >
+                {f.label}
+              </button>
+            ))}
+          </div>
           {/* Video Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {videos.map((v, i) => (
+            {filteredVideos.map((v, i) => (
               <div key={`${v.src}-${i}`} className="rounded overflow-hidden bg-charcoal-foreground/5">
                 <video
                   src={v.src}
@@ -108,6 +149,9 @@ const Advertising = () => {
                 <p className="px-3 py-2 font-display text-sm text-charcoal-foreground uppercase tracking-wide">{v.title}</p>
               </div>
             ))}
+            {filteredVideos.length === 0 && (
+              <p className="col-span-full text-center text-charcoal-foreground/50 py-10">Wideo ýok.</p>
+            )}
           </div>
         </div>
       </section>
