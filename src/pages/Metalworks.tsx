@@ -25,13 +25,12 @@ const services = [
   },
 ];
 
-type VideoFilter = "all" | "metal" | "mebel" | "gurnama";
+type VideoFilter = "all" | "metal" | "mebel";
 
 const videoFilters: { key: VideoFilter; label: string }[] = [
-  { key: "all",     label: "Hemmesi" },
-  { key: "metal",   label: "Metal" },
-  { key: "mebel",   label: "Mebel" },
-  { key: "gurnama", label: "Gurnama" },
+  { key: "all",   label: "Hemmesi" },
+  { key: "metal", label: "Metal" },
+  { key: "mebel", label: "Mebel" },
 ];
 
 const videos: { src: string; title: string; categories: VideoFilter[] }[] = [

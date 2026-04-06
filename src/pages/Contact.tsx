@@ -22,7 +22,7 @@ const Contact = () => {
     setSubmitStatus("idle");
 
     try {
-      const res = await fetch("/.netlify/functions/contact", {
+      const res = await fetch("/contact.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...form, captchaToken }),
@@ -74,6 +74,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <p className="font-semibold text-sm">E-poçta</p>
+                    <p className="text-muted-foreground">info@berk-bilek.com</p>
                     <p className="text-muted-foreground">berkbilek2020@gmail.com</p>
                   </div>
                 </div>
