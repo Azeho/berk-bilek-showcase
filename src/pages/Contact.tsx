@@ -22,13 +22,21 @@ const Contact = () => {
     setSubmitStatus("idle");
 
     try {
-      const res = await fetch("/contact.php", {
+      const formData = new FormData();
+      formData.append("access_key", "a5b73472-c9a7-4738-bf96-08eebcf834a8");
+      formData.append("subject", `Berk Bilek - Contact Form: Message from ${form.name}`);
+      formData.append("from_name", "Berk Bilek Website");
+      formData.append("name", form.name);
+      formData.append("email", form.email);
+      formData.append("message", form.message);
+
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, captchaToken }),
+        body: formData,
       });
 
-      if (res.ok) {
+      const data = await res.json();
+      if (data.success) {
         setSubmitStatus("success");
         setForm({ name: "", email: "", message: "" });
         setCaptchaToken(null);
