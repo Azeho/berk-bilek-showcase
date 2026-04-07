@@ -24,11 +24,12 @@ const Contact = () => {
     try {
       const formData = new FormData();
       formData.append("access_key", "a5b73472-c9a7-4738-bf96-08eebcf834a8");
-      formData.append("subject", `Berk Bilek - Contact Form: Message from ${form.name}`);
-      formData.append("from_name", "Berk Bilek Website");
-      formData.append("name", form.name);
-      formData.append("email", form.email);
-      formData.append("message", form.message);
+      formData.append("subject", `Berk Bilek - Täze hat: ${form.name}`);
+      formData.append("from_name", "Berk Bilek Web Sahypasy");
+      formData.append("cc", "berkbilek2020@gmail.com");
+      formData.append("Ady", form.name);
+      formData.append("Email", form.email);
+      formData.append("Hat", form.message);
 
       const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
