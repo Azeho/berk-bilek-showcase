@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 $input = file_get_contents('php://input');
-$data = json_decode($input, true);
+$data  = json_decode($input, true);
 
 // Verify reCAPTCHA
 $recaptchaSecret = '6LfpDqEsAAAAAG65bji1WfM7Wk_lZ8v5GdDT9Elq';
@@ -37,13 +37,15 @@ $recaptchaOptions = [
         ])
     ]
 ];
-$recaptchaContext = stream_context_create($recaptchaOptions);
-$recaptchaResult  = file_get_contents('https://www.google.com/recaptcha/api/siteverify', false, $recaptchaContext);
-$recaptchaJson    = json_decode($recaptchaResult);
-
-if (!$recaptchaJson->success) {
+$recaptchaResult = file_get_contents(
+    'https://www.google.com/recaptcha/api/siteverify',
+    false,
+    stream_context_create($recaptchaOptions)
+);
+$recaptchaJson = json_decode($recaptchaResult);
+if (!$recaptchaJson || !$recaptchaJson->success) {
     http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed. Please try again.']);
+    echo json_encode(['success' => false, 'message' => 'reCAPTCHA verification failed.']);
     exit();
 }
 
@@ -64,38 +66,87 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-// Send email
-$to      = 'info@berk-bilek.com';
-$subject = 'Berk Bilek - Contact Form: Message from ' . $name;
+// SMTP config (mail.ru)
+$smtpHost = 'smtp.mail.ru';
+$smtpPort = 465;
+$smtpUser = 'noreply@berk-bilek.com';
+$smtpPass = 'r2itt%RaOIO3';
+$fromAddr = 'noreply@berk-bilek.com';
+$fromName = 'Berk Bilek Contact';
+$toAddr   = 'info@berk-bilek.com';
+$ccAddr   = 'berkbilek2020@gmail.com';
 
-$emailBody  = "You have received a new message from the contact form on berk-bilek.com\n\n";
-$emailBody .= "Name: "    . $name    . "\n";
-$emailBody .= "Email: "   . $email   . "\n\n";
-$emailBody .= "Message:\n" . $message . "\n\n";
-$emailBody .= "---\n";
-$emailBody .= "This email was sent from the contact form at berk-bilek.com";
+$subject  = 'Berk Bilek - Contact Form: Message from ' . $name;
+$body     = "You have received a new message from the contact form on berk-bilek.com\r\n\r\n"
+          . "Name: {$name}\r\n"
+          . "Email: {$email}\r\n\r\n"
+          . "Message:\r\n{$message}\r\n\r\n"
+          . "---\r\nSent from berk-bilek.com contact form";
 
-$headers  = "From: Berk Bilek Contact <info@berk-bilek.com>\r\n";
-$headers .= "Reply-To: " . $email . "\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-$headers .= "MIME-Version: 1.0\r\n";
-$headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+// Send via SMTP
+function smtp_send($host, $port, $user, $pass, $fromAddr, $fromName, $toAddr, $ccAddr, $subject, $body) {
+    $socket = @stream_socket_client(
+        "ssl://{$host}:{$port}", $errno, $errstr, 30,
+        STREAM_CLIENT_CONNECT,
+        stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]])
+    );
+    if (!$socket) return "Connection failed ({$errno}): {$errstr}";
 
-$mailSent = mail($to, $subject, $emailBody, $headers);
+    stream_set_timeout($socket, 15);
 
-// Also CC berkbilek2020@gmail.com
-if ($mailSent) {
-    $ccHeaders  = "From: Berk Bilek Contact <info@berk-bilek.com>\r\n";
-    $ccHeaders .= "Reply-To: " . $email . "\r\n";
-    $ccHeaders .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-    $ccHeaders .= "MIME-Version: 1.0\r\n";
-    $ccHeaders .= "Content-Type: text/plain; charset=UTF-8\r\n";
-    mail('berkbilek2020@gmail.com', $subject, $emailBody, $ccHeaders);
+    $r = function() use ($socket) { return fgets($socket, 515); };
+    $w = function($cmd) use ($socket) { fwrite($socket, $cmd . "\r\n"); };
 
+    $r(); // 220 banner
+
+    $w("EHLO berk-bilek.com");
+    do { $line = $r(); } while ($line && $line[3] !== ' '); // drain multi-line EHLO
+
+    $w("AUTH LOGIN");
+    $r(); // 334 username prompt
+    $w(base64_encode($user));
+    $r(); // 334 password prompt
+    $w(base64_encode($pass));
+    $authResp = $r(); // 235 or error
+    if ((int)substr($authResp, 0, 3) !== 235) return "Auth failed: " . trim($authResp);
+
+    $w("MAIL FROM:<{$fromAddr}>");
+    $r();
+    $w("RCPT TO:<{$toAddr}>");
+    $r();
+    $w("RCPT TO:<{$ccAddr}>");
+    $r();
+    $w("DATA");
+    $r(); // 354
+
+    $date    = date('r');
+    $msgId   = '<' . time() . '.' . rand() . '@berk-bilek.com>';
+    $headers = "Date: {$date}\r\n"
+             . "Message-ID: {$msgId}\r\n"
+             . "From: {$fromName} <{$fromAddr}>\r\n"
+             . "Reply-To: {$fromAddr}\r\n"
+             . "To: {$toAddr}\r\n"
+             . "Cc: {$ccAddr}\r\n"
+             . "Subject: {$subject}\r\n"
+             . "MIME-Version: 1.0\r\n"
+             . "Content-Type: text/plain; charset=UTF-8\r\n"
+             . "Content-Transfer-Encoding: 8bit\r\n";
+
+    fwrite($socket, $headers . "\r\n" . $body . "\r\n.\r\n");
+    $sendResp = $r(); // 250 or error
+    $w("QUIT");
+    fclose($socket);
+
+    return (int)substr($sendResp, 0, 3) === 250 ? true : "Send failed: " . trim($sendResp);
+}
+
+$result = smtp_send($smtpHost, $smtpPort, $smtpUser, $smtpPass, $fromAddr, $fromName, $toAddr, $ccAddr, $subject, $body);
+
+if ($result === true) {
     http_response_code(200);
     echo json_encode(['success' => true, 'message' => 'Your message has been sent successfully.']);
 } else {
     http_response_code(500);
-    echo json_encode(['success' => false, 'message' => 'Failed to send email. Please try again later or contact us directly at info@berk-bilek.com']);
+    echo json_encode(['success' => false, 'message' => 'Failed to send email. Please try again later.', 'debug' => $result]);
 }
 ?>
