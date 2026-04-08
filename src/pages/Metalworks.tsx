@@ -74,7 +74,7 @@ const Metalworks = () => {
     <div>
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[300px] flex items-center">
-        <img src={heroImg} alt="Metal işleri" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={heroImg} alt="Metal işleri" className="absolute inset-0 w-full h-full object-cover" fetchPriority="high" decoding="async" />
         <div className="absolute inset-0 hero-overlay opacity-85" />
         <div className="relative container z-10">
           <h1 className="font-display text-4xl md:text-5xl font-bold text-charcoal-foreground uppercase tracking-wider">

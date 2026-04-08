@@ -35,7 +35,7 @@ const Index = () => {
     <div>
       {/* Hero */}
       <section className="relative h-[85vh] min-h-[500px] flex items-center">
-        <img src={heroImg} alt="Berk Bilek metal işleri" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={heroImg} alt="Berk Bilek metal işleri" className="absolute inset-0 w-full h-full object-cover" fetchPriority="high" decoding="async" />
         <div className="absolute inset-0 hero-overlay opacity-80" />
         <div className="relative container z-10">
           <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold text-charcoal-foreground uppercase leading-tight max-w-3xl tracking-wide">
